@@ -119,7 +119,7 @@ function RootComponent() {
             <SiteFooter />
           </div>
           <CartDrawer />
-          <Toaster position="top-center" />
+          <Toaster position="top-center" theme="dark" richColors />
         </CartProvider>
       </AuthProvider>
     </QueryClientProvider>
