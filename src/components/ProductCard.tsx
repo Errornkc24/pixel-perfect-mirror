@@ -10,12 +10,8 @@ export function ProductCard({ product }: { product: Product }) {
   const { add } = useCart();
   const out = product.stock <= 0;
   return (
-    <article className="group flex flex-col rounded-[20px] border border-border bg-card p-2 pb-4 shadow-soft transition-all duration-500 hover:-translate-y-1 hover:border-primary/50 hover:shadow-glow">
-      <Link
-        to="/product/$slug"
-        params={{ slug: product.slug }}
-        className="relative block aspect-[4/5] overflow-hidden rounded-[14px] bg-secondary"
-      >
+    <article className="group flex flex-col overflow-hidden rounded-2xl border bg-card-gradient shadow-soft transition-all duration-500 hover:-translate-y-1 hover:border-primary/40 hover:shadow-glow">
+      <Link to="/product/$slug" params={{ slug: product.slug }} className="relative block aspect-square overflow-hidden">
         <img
           src={product.images[0]}
           alt={`${product.name} scented candle`}
@@ -26,25 +22,14 @@ export function ProductCard({ product }: { product: Product }) {
         />
         <StockBadge stock={product.stock} className="absolute left-3 top-3" />
       </Link>
-      <div className="flex flex-1 flex-col gap-2 px-2 pt-4 text-center sm:px-3">
+      <div className="flex flex-1 flex-col gap-2 p-4 sm:p-5">
         <Link to="/product/$slug" params={{ slug: product.slug }}>
-          <h3 className="text-2xl font-semibold leading-tight transition-colors group-hover:text-primary">
-            {product.name}
-          </h3>
+          <h3 className="text-xl leading-tight transition-colors group-hover:text-primary sm:text-2xl">{product.name}</h3>
         </Link>
         <p className="line-clamp-2 text-sm text-muted-foreground">{product.short_description}</p>
-        <div className="mt-auto pt-2">
-          <span className="font-display text-2xl font-semibold text-bloom">
-            {formatINR(Number(product.price))}
-          </span>
-          <Button
-            className="mt-3 w-full rounded-full uppercase tracking-[0.18em]"
-            size="sm"
-            variant={out ? "secondary" : "default"}
-            disabled={out}
-            onClick={() => add(product)}
-            aria-label={`Add ${product.name} to cart`}
-          >
+        <div className="mt-auto flex items-center justify-between pt-2">
+          <span className="font-brand text-lg text-primary">{formatINR(Number(product.price))}</span>
+          <Button size="sm" variant={out ? "secondary" : "outline"} disabled={out} onClick={() => add(product)} aria-label={`Add ${product.name} to cart`}>
             <ShoppingBag /> {out ? "Sold out" : "Add"}
           </Button>
         </div>
@@ -55,8 +40,8 @@ export function ProductCard({ product }: { product: Product }) {
 
 export function ProductCardSkeleton() {
   return (
-    <div className="rounded-[20px] border bg-card p-2">
-      <Skeleton className="aspect-[4/5] w-full rounded-[14px] bg-muted" />
+    <div className="overflow-hidden rounded-2xl border bg-card">
+      <Skeleton className="aspect-square w-full rounded-none bg-muted" />
       <div className="space-y-3 p-5">
         <Skeleton className="h-6 w-2/3 bg-muted" />
         <Skeleton className="h-4 w-full bg-muted" />
