@@ -250,6 +250,7 @@ export type Database = {
           featured: boolean
           id: string
           images: string[]
+          low_stock_threshold: number
           name: string
           price: number
           scent_notes: string[]
@@ -268,6 +269,7 @@ export type Database = {
           featured?: boolean
           id?: string
           images?: string[]
+          low_stock_threshold?: number
           name: string
           price: number
           scent_notes?: string[]
@@ -286,6 +288,7 @@ export type Database = {
           featured?: boolean
           id?: string
           images?: string[]
+          low_stock_threshold?: number
           name?: string
           price?: number
           scent_notes?: string[]
@@ -404,7 +407,44 @@ export type Database = {
       [_ in never]: never
     }
     Functions: {
+      admin_adjust_stock: {
+        Args: {
+          _change: number
+          _note?: string
+          _product_id: string
+          _reason: string
+        }
+        Returns: number
+      }
+      admin_set_role: {
+        Args: {
+          _email: string
+          _grant: boolean
+          _role: Database["public"]["Enums"]["app_role"]
+        }
+        Returns: undefined
+      }
+      admin_team: {
+        Args: never
+        Returns: {
+          email: string
+          name: string
+          role: Database["public"]["Enums"]["app_role"]
+          user_id: string
+        }[]
+      }
+      admin_update_order: {
+        Args: {
+          _courier?: string
+          _note?: string
+          _order_id: string
+          _status: Database["public"]["Enums"]["order_status"]
+          _tracking?: string
+        }
+        Returns: undefined
+      }
       cancel_order: { Args: { _order_id: string }; Returns: undefined }
+      claim_owner: { Args: never; Returns: boolean }
       has_role: {
         Args: {
           _role: Database["public"]["Enums"]["app_role"]
@@ -417,6 +457,7 @@ export type Database = {
         Args: { _address: Json; _contact: Json; _items: Json }
         Returns: Json
       }
+      store_has_owner: { Args: never; Returns: boolean }
     }
     Enums: {
       app_role: "owner" | "staff" | "customer"
