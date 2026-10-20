@@ -8,6 +8,7 @@ import { supabase } from "@/integrations/supabase/client";
 import { DropdownMenu, DropdownMenuContent, DropdownMenuItem, DropdownMenuLabel, DropdownMenuSeparator, DropdownMenuTrigger } from "./ui/dropdown-menu";
 import { Sheet, SheetContent, SheetTitle, SheetTrigger } from "./ui/sheet";
 import { cn } from "@/lib/utils";
+import { isAdminRole, useRoles } from "@/lib/admin";
 
 const nav = [
   { to: "/", label: "Home" },
@@ -18,6 +19,7 @@ const nav = [
 export function SiteHeader() {
   const { count, setOpen, bump } = useCart();
   const { user } = useAuth();
+  const { data: roles } = useRoles();
   const navigate = useNavigate();
   const qc = useQueryClient();
   const [pop, setPop] = useState(false);
@@ -44,7 +46,7 @@ export function SiteHeader() {
   }
 
   return (
-    <header className={cn("sticky top-0 z-40 transition-all duration-500", scrolled ? "border-b bg-background/85 backdrop-blur-md" : "bg-transparent")}>
+    <header className={cn("sticky top-0 z-40 print:hidden transition-all duration-500", scrolled ? "border-b bg-background/85 backdrop-blur-md" : "bg-transparent")}>
       <div className="mx-auto flex h-16 max-w-7xl items-center justify-between gap-4 px-4 sm:h-20 sm:px-6">
         <Sheet>
           <SheetTrigger className="md:hidden" aria-label="Open menu"><Menu className="h-6 w-6" /></SheetTrigger>
@@ -84,6 +86,7 @@ export function SiteHeader() {
                 <DropdownMenuSeparator />
                 <DropdownMenuItem onClick={() => navigate({ to: "/account" })}><User /> My account</DropdownMenuItem>
                 <DropdownMenuItem onClick={() => navigate({ to: "/orders" })}><Package /> My orders</DropdownMenuItem>
+                {isAdminRole(roles) && <DropdownMenuItem onClick={() => navigate({ to: "/admin" })}><Package /> Store admin</DropdownMenuItem>}
                 <DropdownMenuSeparator />
                 <DropdownMenuItem onClick={signOut}><LogOut /> Sign out</DropdownMenuItem>
               </DropdownMenuContent>
