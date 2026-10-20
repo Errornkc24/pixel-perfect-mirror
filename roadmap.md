@@ -6,7 +6,7 @@
 - [x] Checkout (COD), order confirmation, My Orders timeline, cancel before packed
 - [x] Profile + saved addresses
 ## Stage 2
-- [ ] Admin panel: products, categories, stock, history log, low-stock widgets/bell
-- [ ] Admin orders: filters, detail, packing slip, status + tracking
-- [ ] Owner/Staff roles, create/deactivate admins, dashboard
-- [ ] Emails: order confirmation, status updates, low stock, new-order alerts (needs email domain)
+- [x] Admin panel: products, categories, stock, history log, low-stock widgets/bell
+- [x] Admin orders: filters, detail, packing slip, status + tracking
+- [x] Owner/Staff roles, create/deactivate admins, dashboard
+- [ ] Emails: order confirmation, status updates, low stock, new-order alerts (blocked: needs your email domain)

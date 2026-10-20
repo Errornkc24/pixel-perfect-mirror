@@ -110,13 +110,13 @@ function RootComponent() {
         }}
       >
         <CartProvider>
-          <AmbientBackground fixed density={0.35} className="opacity-60" />
+          <AmbientBackground fixed density={0.35} className="opacity-60 print:hidden" />
           <div className="flex min-h-screen flex-col">
             <SiteHeader />
             <main className="flex-1">
               <Outlet />
             </main>
-            <SiteFooter />
+            <div className="print:hidden"><SiteFooter /></div>
           </div>
           <CartDrawer />
           <Toaster position="top-center" theme="dark" richColors />
