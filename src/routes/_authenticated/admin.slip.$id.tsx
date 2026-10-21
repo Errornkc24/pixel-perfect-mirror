@@ -4,8 +4,9 @@ import { useAdminOrder } from "./admin.orders.$id";
 import { addressOf, contactOf, fmtDate } from "@/lib/admin";
 import { formatINR } from "@/lib/shop";
 import { Button } from "@/components/ui/button";
+import { pageHead } from "@/lib/page-head";
 
-export const Route = createFileRoute("/_authenticated/admin/slip/$id")({ component: Slip });
+export const Route = createFileRoute("/_authenticated/admin/slip/$id")({ head: () => pageHead("Packing slip", "Print the packing slip for a candle order.", true), component: Slip });
 
 function Slip() {
   const { id } = Route.useParams();

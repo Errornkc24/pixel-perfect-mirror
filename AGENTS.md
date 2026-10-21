@@ -12,3 +12,4 @@
 - Order placement and cancellation run in database functions (place_order, cancel_order) so stock checks/decrements are atomic and cannot be bypassed from the browser.
 - Guest cart lives in localStorage and merges into the cart_items table on sign-in; signed-in cart writes go straight to the table.
 - Admin access uses user_roles (owner/staff) via has_role/is_admin; never store roles on profiles.
+- New page metadata uses pageHead with a page-specific title and description; private pages are noindex to avoid exposing account and store-management pages in search results.

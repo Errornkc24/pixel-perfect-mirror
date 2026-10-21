@@ -7,8 +7,9 @@ import { categoriesQuery } from "@/lib/queries";
 import { slugify, useRoles } from "@/lib/admin";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
+import { pageHead } from "@/lib/page-head";
 
-export const Route = createFileRoute("/_authenticated/admin/categories")({ component: Categories });
+export const Route = createFileRoute("/_authenticated/admin/categories")({ head: () => pageHead("Manage categories", "Organize candle categories for the store.", true), component: Categories });
 
 function Categories() {
   const qc = useQueryClient();

@@ -3,8 +3,9 @@ import { useQuery } from "@tanstack/react-query";
 import { useState } from "react";
 import { supabase } from "@/integrations/supabase/client";
 import { adminProductsQuery, fmtDate } from "@/lib/admin";
+import { pageHead } from "@/lib/page-head";
 
-export const Route = createFileRoute("/_authenticated/admin/stock")({ component: StockHistory });
+export const Route = createFileRoute("/_authenticated/admin/stock")({ head: () => pageHead("Stock history", "Review candle stock adjustments and sales history.", true), component: StockHistory });
 
 const REASON: Record<string, string> = { order: "Order", order_cancelled: "Order cancelled", initial: "Starting stock" };
 

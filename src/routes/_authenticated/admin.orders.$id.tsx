@@ -9,8 +9,9 @@ import { formatINR, ORDER_STEPS, STATUS_LABEL, type OrderStatus } from "@/lib/sh
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
+import { pageHead } from "@/lib/page-head";
 
-export const Route = createFileRoute("/_authenticated/admin/orders/$id")({ component: OrderDetail });
+export const Route = createFileRoute("/_authenticated/admin/orders/$id")({ head: () => pageHead("Manage order details", "Manage order status, shipping and customer details.", true), component: OrderDetail });
 
 export function useAdminOrder(id: string) {
   return useQuery({
