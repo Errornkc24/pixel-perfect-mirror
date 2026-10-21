@@ -3,7 +3,8 @@ import { useQuery, useQueryClient } from "@tanstack/react-query";
 import { useEffect, useState } from "react";
 import { toast } from "sonner";
 import { z } from "zod";
-import { Banknote, Check } from "lucide-react";
+import { Banknote, Check, CreditCard } from "lucide-react";
+import { useRazorpay } from "@/lib/use-razorpay";
 import { supabase } from "@/integrations/supabase/client";
 import { useAuth } from "@/lib/auth";
 import { useCart } from "@/lib/cart";
@@ -47,6 +48,8 @@ function Checkout() {
   const [selected, setSelected] = useState<string | null>(null);
   const [adding, setAdding] = useState(false);
   const [placing, setPlacing] = useState(false);
+  const [method, setMethod] = useState<"online" | "cod">("online");
+  const pay = useRazorpay();
   const [c, setC] = useState({ first_name: "", last_name: "", email: "", phone: "", instagram: "" });
 
   useEffect(() => {
@@ -79,8 +82,8 @@ function Checkout() {
       _address: { full_name, phone, line1, landmark, city, state, pincode },
       _contact: cr.data,
     });
-    setPlacing(false);
     if (error) {
+      setPlacing(false);
       toast.error(error.message || "We couldn't place your order. Please try again.");
       qc.invalidateQueries({ queryKey: ["products"] });
       return;
@@ -88,6 +91,16 @@ function Checkout() {
     const res = data as { id: string; order_number: string };
     clearLocal();
     qc.invalidateQueries();
+    if (method === "online") {
+      try {
+        const r = await pay(res.id);
+        if (r === "paid") toast.success("Payment received — thank you!");
+        else toast.message("Payment not completed. You can pay from your order page or pay cash on delivery.");
+      } catch (e) {
+        toast.error(e instanceof Error ? e.message : "Payment failed");
+      }
+    }
+    setPlacing(false);
     navigate({ to: "/orders/$id", params: { id: res.id }, search: { placed: true } });
   }
 
@@ -148,9 +161,17 @@ function Checkout() {
 
           <section className="rounded-2xl border bg-card/60 p-6">
             <h2 className="text-2xl">Payment</h2>
-            <div className="mt-4 flex items-center gap-3 rounded-xl border border-primary bg-primary/10 p-4">
-              <Banknote className="h-6 w-6 text-primary" />
-              <div><p className="font-medium">Cash on Delivery</p><p className="text-sm text-muted-foreground">Pay when your candles arrive.</p></div>
+            <div className="mt-4 grid gap-3">
+              {([
+                { k: "online", icon: CreditCard, t: "Pay online", d: "UPI, cards, netbanking & wallets via Razorpay." },
+                { k: "cod", icon: Banknote, t: "Cash on Delivery", d: "Pay when your candles arrive." },
+              ] as const).map((m) => (
+                <button key={m.k} type="button" onClick={() => setMethod(m.k)} aria-pressed={method === m.k}
+                  className={cn("flex items-center gap-3 rounded-xl border p-4 text-left transition", method === m.k ? "border-primary bg-primary/10" : "hover:border-primary/40")}>
+                  <m.icon className="h-6 w-6 text-primary" />
+                  <div><p className="font-medium">{m.t}</p><p className="text-sm text-muted-foreground">{m.d}</p></div>
+                </button>
+              ))}
             </div>
           </section>
         </div>
