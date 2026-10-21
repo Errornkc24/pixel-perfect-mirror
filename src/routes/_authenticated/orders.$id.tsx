@@ -9,6 +9,7 @@ import { Button } from "@/components/ui/button";
 import { Skeleton } from "@/components/ui/skeleton";
 import { AlertDialog, AlertDialogAction, AlertDialogCancel, AlertDialogContent, AlertDialogDescription, AlertDialogFooter, AlertDialogHeader, AlertDialogTitle, AlertDialogTrigger } from "@/components/ui/alert-dialog";
 import { canCustomerCancel, formatINR } from "@/lib/shop";
+import { useRazorpay } from "@/lib/use-razorpay";
 
 export const Route = createFileRoute("/_authenticated/orders/$id")({
   validateSearch: (s: Record<string, unknown>): { placed?: boolean } => ({ placed: s.placed === true || s.placed === "true" ? true : undefined }),
@@ -30,6 +31,8 @@ function OrderDetail() {
   const { placed } = Route.useSearch();
   const qc = useQueryClient();
   const [cancelling, setCancelling] = useState(false);
+  const [paying, setPaying] = useState(false);
+  const pay = useRazorpay();
   const { data: o, isLoading } = useQuery({
     queryKey: ["order", id],
     queryFn: async () => {
@@ -52,6 +55,19 @@ function OrderDetail() {
   if (!o) return <div className="py-32 text-center"><h1 className="text-3xl">Order not found</h1><Button asChild className="mt-6"><Link to="/orders">My orders</Link></Button></div>;
 
   const addr = o.shipping_address as unknown as Addr;
+  const paid = o.payment_status === "paid";
+
+  async function payNow() {
+    setPaying(true);
+    try {
+      const r = await pay(id);
+      if (r === "paid") toast.success("Payment received — thank you!");
+    } catch (e) {
+      toast.error(e instanceof Error ? e.message : "Payment failed");
+    }
+    setPaying(false);
+    qc.invalidateQueries({ queryKey: ["order", id] });
+  }
 
   async function cancel() {
     setCancelling(true);
@@ -70,7 +86,7 @@ function OrderDetail() {
         <div className="mt-6 rounded-3xl border border-primary/40 bg-card-gradient p-8 text-center shadow-glow">
           <PartyPopper className="mx-auto h-10 w-10 text-primary" />
           <h1 className="mt-3 text-4xl">Thank you! Your order is placed</h1>
-          <p className="mt-2 text-muted-foreground">We'll start pouring love into your package. Pay {formatINR(Number(o.total))} on delivery.</p>
+          <p className="mt-2 text-muted-foreground">We'll start pouring love into your package. {paid ? "Your payment is received." : `Pay ${formatINR(Number(o.total))} on delivery, or pay online below.`}</p>
         </div>
       )}
 
@@ -122,8 +138,11 @@ function OrderDetail() {
           <dl className="space-y-1 text-sm">
             <div className="flex justify-between"><dt className="text-muted-foreground">Subtotal</dt><dd>{formatINR(Number(o.subtotal))}</dd></div>
             <div className="flex justify-between"><dt className="text-muted-foreground">Shipping</dt><dd>{Number(o.shipping) === 0 ? "Free" : formatINR(Number(o.shipping))}</dd></div>
-            <div className="flex justify-between text-base"><dt>Total (Cash on Delivery)</dt><dd className="text-primary">{formatINR(Number(o.total))}</dd></div>
+            <div className="flex justify-between text-base"><dt>Total {paid ? "(Paid online)" : "(Cash on Delivery)"}</dt><dd className="text-primary">{formatINR(Number(o.total))}</dd></div>
           </dl>
+          {!paid && o.status !== "cancelled" && (
+            <Button className="mt-4 w-full" disabled={paying} onClick={payNow}>{paying ? "Opening payment…" : `Pay online · ${formatINR(Number(o.total))}`}</Button>
+          )}
         </section>
         <section className="rounded-2xl border bg-card/60 p-6 text-sm">
           <h2 className="text-2xl">Delivering to</h2>
