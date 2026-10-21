@@ -6,8 +6,9 @@ import { supabase } from "@/integrations/supabase/client";
 import { useAuth } from "@/lib/auth";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
+import { pageHead } from "@/lib/page-head";
 
-export const Route = createFileRoute("/_authenticated/admin/team")({ component: Team });
+export const Route = createFileRoute("/_authenticated/admin/team")({ head: () => pageHead("Store team", "Manage owner and staff access to the candle store.", true), component: Team });
 
 function Team() {
   const qc = useQueryClient();

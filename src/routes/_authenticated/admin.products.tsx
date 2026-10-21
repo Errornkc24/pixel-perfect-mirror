@@ -13,8 +13,9 @@ import { Label } from "@/components/ui/label";
 import { Textarea } from "@/components/ui/textarea";
 import { Switch } from "@/components/ui/switch";
 import { Dialog, DialogContent, DialogHeader, DialogTitle } from "@/components/ui/dialog";
+import { pageHead } from "@/lib/page-head";
 
-export const Route = createFileRoute("/_authenticated/admin/products")({ component: Products });
+export const Route = createFileRoute("/_authenticated/admin/products")({ head: () => pageHead("Manage candles", "Manage candle listings, prices, photos and inventory.", true), component: Products });
 
 type P = Awaited<ReturnType<NonNullable<typeof adminProductsQuery.queryFn>>>[number];
 

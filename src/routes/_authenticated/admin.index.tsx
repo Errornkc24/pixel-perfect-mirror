@@ -2,8 +2,9 @@ import { createFileRoute, Link } from "@tanstack/react-router";
 import { useQuery } from "@tanstack/react-query";
 import { adminOrdersQuery, adminProductsQuery, contactOf, fmtDate, isLowStock } from "@/lib/admin";
 import { formatINR, STATUS_LABEL } from "@/lib/shop";
+import { pageHead } from "@/lib/page-head";
 
-export const Route = createFileRoute("/_authenticated/admin/")({ component: Dashboard });
+export const Route = createFileRoute("/_authenticated/admin/")({ head: () => pageHead("Store dashboard", "View sales, recent orders and low-stock candles.", true), component: Dashboard });
 
 function Dashboard() {
   const { data: orders = [] } = useQuery(adminOrdersQuery);

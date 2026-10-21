@@ -5,8 +5,9 @@ import { adminOrdersQuery, contactOf, fmtDate } from "@/lib/admin";
 import { formatINR, ORDER_STEPS, STATUS_LABEL, type OrderStatus } from "@/lib/shop";
 import { Input } from "@/components/ui/input";
 import { cn } from "@/lib/utils";
+import { pageHead } from "@/lib/page-head";
 
-export const Route = createFileRoute("/_authenticated/admin/orders/")({ component: Orders });
+export const Route = createFileRoute("/_authenticated/admin/orders/")({ head: () => pageHead("Manage orders", "Review and filter customer candle orders.", true), component: Orders });
 
 function Orders() {
   const { data: orders = [] } = useQuery(adminOrdersQuery);

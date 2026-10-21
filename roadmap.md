@@ -6,9 +6,10 @@
 - [x] Checkout (COD), order confirmation, My Orders timeline, cancel before packed
 - [x] Profile + saved addresses
 ## Stage 2
-- [ ] Complete product photo uploads (subject to workspace public-file permission)
-- [ ] Verify signed-in admin and customer flows
-- [ ] Complete page-specific sharing titles and descriptions
+- [ ] Complete product photo uploads (blocked: workspace public-file permission; photo links work)
+- [x] Verify signed-in admin candle editing, stock adjustments/restoration and owner access
+- [ ] Verify customer order placement/cancellation (requires a test order with confirmed delivery details)
+- [x] Complete page-specific sharing titles and descriptions
 - [x] Admin panel: products, categories, stock, history log, low-stock widgets/bell
 - [x] Admin orders: filters, detail, packing slip, status + tracking
 - [x] Owner/Staff roles, create/deactivate admins, dashboard
