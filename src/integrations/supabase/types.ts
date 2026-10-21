@@ -192,8 +192,11 @@ export type Database = {
           created_at: string
           id: string
           order_number: string
+          paid_at: string | null
           payment_method: string
           payment_status: string
+          razorpay_order_id: string | null
+          razorpay_payment_id: string | null
           shipping: number
           shipping_address: Json
           status: Database["public"]["Enums"]["order_status"]
@@ -209,8 +212,11 @@ export type Database = {
           created_at?: string
           id?: string
           order_number?: string
+          paid_at?: string | null
           payment_method?: string
           payment_status?: string
+          razorpay_order_id?: string | null
+          razorpay_payment_id?: string | null
           shipping: number
           shipping_address: Json
           status?: Database["public"]["Enums"]["order_status"]
@@ -226,8 +232,11 @@ export type Database = {
           created_at?: string
           id?: string
           order_number?: string
+          paid_at?: string | null
           payment_method?: string
           payment_status?: string
+          razorpay_order_id?: string | null
+          razorpay_payment_id?: string | null
           shipping?: number
           shipping_address?: Json
           status?: Database["public"]["Enums"]["order_status"]

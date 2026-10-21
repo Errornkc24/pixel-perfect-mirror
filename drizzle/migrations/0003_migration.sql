@@ -1,0 +1,1 @@
+alter table public.orders add column if not exists razorpay_order_id text, add column if not exists razorpay_payment_id text, add column if not exists paid_at timestamptz;
