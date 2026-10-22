@@ -13,4 +13,5 @@
 - [x] Admin panel: products, categories, stock, history log, low-stock widgets/bell
 - [x] Admin orders: filters, detail, packing slip, status + tracking
 - [x] Owner/Staff roles, create/deactivate admins, dashboard
+- [ ] Razorpay online payments (needs your Razorpay keys)
 - [ ] Emails: order confirmation, status updates, low stock, new-order alerts (blocked: needs your email domain)
