@@ -14,3 +14,4 @@
 - Admin access uses user_roles (owner/staff) via has_role/is_admin; never store roles on profiles.
 - New page metadata uses pageHead with a page-specific title and description; private pages are noindex to avoid exposing account and store-management pages in search results.
 - Online payments use Razorpay via server functions; orders are marked paid only after server-side signature verification (browser can't fake payment).
+- Sales reports use paginated RLS-protected order/item reads and pure aggregation in src/lib/sales.ts; India placement dates and separate paid/cancelled totals prevent misleading reports.

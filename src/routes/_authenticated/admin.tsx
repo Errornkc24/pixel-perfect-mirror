@@ -2,7 +2,7 @@ import { createFileRoute, Link, Outlet } from "@tanstack/react-router";
 import { useQuery, useQueryClient } from "@tanstack/react-query";
 import { useEffect } from "react";
 import { toast } from "sonner";
-import { Bell, Boxes, History, LayoutDashboard, Package, Tags, Users } from "lucide-react";
+import { Bell, Boxes, ChartNoAxesCombined, History, LayoutDashboard, Package, Tags, Users } from "lucide-react";
 import { supabase } from "@/integrations/supabase/client";
 import { adminProductsQuery, isAdminRole, isLowStock, useRoles } from "@/lib/admin";
 import { Popover, PopoverContent, PopoverTrigger } from "@/components/ui/popover";
@@ -77,6 +77,7 @@ function AdminShell({ isOwner }: { isOwner: boolean }) {
 
   const links = [
     { to: "/admin", label: "Dashboard", icon: LayoutDashboard, exact: true },
+    { to: "/admin/sales", label: "Sales", icon: ChartNoAxesCombined },
     { to: "/admin/orders", label: "Orders", icon: Package },
     { to: "/admin/products", label: "Products", icon: Boxes },
     { to: "/admin/categories", label: "Categories", icon: Tags },
