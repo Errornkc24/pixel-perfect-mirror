@@ -6,6 +6,7 @@
 - [x] Checkout (COD), order confirmation, My Orders timeline, cancel before packed
 - [x] Profile + saved addresses
 ## Stage 2
+- [ ] Admin Sales tab: daily/monthly/yearly reports, date filters, charts, payment and product breakdowns, CSV export and verification
 - [ ] Complete product photo uploads (blocked: workspace public-file permission; photo links work)
 - [x] Verify signed-in admin candle editing, stock adjustments/restoration and owner access
 - [x] Verify customer order placement/cancellation (test orders placed and cancelled; stock returned)
